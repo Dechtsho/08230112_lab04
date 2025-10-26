@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Learning Journey</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <style>
+    /* Card styling */
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .admin-proof {
+      margin-top: 40px;
+    }
+
+    .admin-proof img {
+      max-width: 200px;
+      margin-right: 15px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      padding: 5px;
+    }
+
+    .proof-item {
+      display: inline-block;
+      text-align: center;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Learning Journey</h1>
+    <nav>
+      <a href="{% url 'dtJourney:index' %}">Home</a> |
+      <a href="{% url 'dtJourney:about_me' %}">About Me</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Card for Learning Journey -->
+    <div class="card">
+      <h2>Highlights of My Learning Journey</h2>
+
+      {% if entries %}
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Title</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in entries %}
+            <tr>
+              <td>{{ entry.date }}</td>
+              <td>{{ entry.title }}</td>
+              <td>{{ entry.description|linebreaks }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No learning entries yet. Please add some from the admin page.</p>
+      {% endif %}
+    </div>
+
+    <!-- Admin Proof Section -->
+    <section class="admin-proof">
+      <h2>Admin Proof</h2>
+      <div class="proof-item">
+        <img src="{% static 'images/learning_entry.png' %}" alt="Learning Entry Screenshot">
+        <p>learning_entry.png</p>
+      </div>
+      <div class="proof-item">
+        <img src="{% static 'images/profile.png' %}" alt="Profile Screenshot">
+        <p>profile.png</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 My Learning Journey | Django MVT Lab</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Me</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffd700;
+      text-decoration: underline;
+      transform: scale(1.05);
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px 25px;
+    }
+
+    .about-section {
+      background: linear-gradient(145deg, #fff0f5, #ffe6f2);
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .profile-image {
+      max-width: 180px;
+      border-radius: 50%;
+      border: 3px solid #ff7eb3;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-image:hover {
+      transform: scale(1.05);
+    }
+
+    /* Placeholder for blank profile */
+    .placeholder-card {
+      padding: 40px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #f9f0ff, #ffe6f2);
+      border: 2px dashed #ff7eb3;
+      color: #aaa;
+      font-style: italic;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .placeholder-card:hover {
+      background: linear-gradient(135deg, #ffe6f2, #fff0fb);
+      transform: translateY(-3px);
+      color: #ff4d6d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #4e54c8;
+      color: white;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About Me</h1>
+    <nav>
+      <a href="{% url 'dtJourney:index' %}">Home</a> |
+      <a href="{% url 'dtJourney:about_me' %}">About Me</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="about-section">
+      {% if profile %}
+        <!-- Profile image -->
+        <img src="{% static 'images/myself.jpg' %}" alt="{{ profile.full_name }}" class="profile-image">
+        <h2>{{ profile.full_name }}</h2>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p>{{ profile.bio|linebreaks }}</p>
+      {% else %}
+        <div class="placeholder-card">
+          <img src="{% static 'images/profile.png' %}" alt="Profile Placeholder" class="profile-image">
+          <p>No profile created yet.</p>
+          <p>Please create your profile from the admin panel to personalize this section.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 My Learning Journey | Django MVT Lab</p>
+  </footer>
+</body>
+</html>
