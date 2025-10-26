@@ -7,136 +7,118 @@
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: "Poppins", sans-serif;
+      background: #f8fffc;
+      color: #033c36;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      color: #333;
+      transition: background 0.4s, color 0.4s;
     }
-
-    header {
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
-      color: white;
-      padding: 25px 20px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    /* Top Bar / Navigation */
+    .top-bar {
+      background: linear-gradient(to right, #aef5e0, #b7e8ff);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-radius: 0 0 20px 20px;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .site-title { font-weight:700; font-size:1.5rem; color:#025c52; }
+    .nav-links { display:flex; gap:20px; }
+    .nav-links a {
+      text-decoration:none; color:#025c52; font-weight:600;
+      padding:8px 16px; border-radius:10px; transition:0.3s;
+    }
+    .nav-links a:hover { background: rgba(255,255,255,0.6); color:#008c7a; }
+    .nav-links a.active { background-color:#9cf5d1; color:#025c52; }
+
+    /* Hamburger Menu */
+    .hamburger { display:none; flex-direction:column; cursor:pointer; }
+    .bar { width:25px; height:3px; background-color:#025c52; margin:4px 0; transition:0.4s; }
+
+    @media (max-width:768px) {
+      .nav-links { display:none; flex-direction:column; background:linear-gradient(to right,#aef5e0,#b7e8ff); position:absolute; top:65px; right:10px; width:200px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+      .nav-links.active { display:flex; }
+      .hamburger { display:flex; }
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 2.2em;
-      letter-spacing: 1px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
+    /* Dark Mode */
+    body.dark-mode { background:#101717; color:#eaf9f7; }
+    body.dark-mode .top-bar { background:linear-gradient(to right,#023833,#02304a); }
+    body.dark-mode .bar { background-color:#b9fff3; }
+    body.dark-mode .nav-links { background:linear-gradient(to right,#023833,#02304a); }
+    body.dark-mode .nav-links a { color:#b9fff3; }
+    body.dark-mode .nav-links a.active { background:#055f55; color:#aef5d1; }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
+    /* Footer */
+    footer { text-align:center; padding:20px; margin-top:50px; background:linear-gradient(to right,#aef5e0,#b7e8ff); border-radius:20px 20px 0 0; color:#025c52; }
+    body.dark-mode footer { background:linear-gradient(to right,#043731,#042b3a); color:#b9fff3; }
 
-    nav a:hover {
-      color: #ffd700;
-      text-decoration: underline;
-      transform: scale(1.05);
-    }
-
-    main {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 30px 25px;
-    }
-
-    .about-section {
-      background: linear-gradient(145deg, #fff0f5, #ffe6f2);
-      padding: 30px 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .about-section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    }
-
-    .profile-image {
-      max-width: 180px;
-      border-radius: 50%;
-      border: 3px solid #ff7eb3;
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    .profile-image:hover {
-      transform: scale(1.05);
-    }
-
-    /* Placeholder for blank profile */
-    .placeholder-card {
-      padding: 40px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #f9f0ff, #ffe6f2);
-      border: 2px dashed #ff7eb3;
-      color: #aaa;
-      font-style: italic;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .placeholder-card:hover {
-      background: linear-gradient(135deg, #ffe6f2, #fff0fb);
-      transform: translateY(-3px);
-      color: #ff4d6d;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      background: #4e54c8;
-      color: white;
-      border-radius: 0 0 15px 15px;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-    }
-
+    /* Dark Mode Toggle */
+    .theme-toggle { position:fixed; bottom:25px; right:25px; background:linear-gradient(135deg,#4ddbb7,#6ac4ff); color:white; border:none; border-radius:50%; width:55px; height:55px; font-size:1.5em; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:transform 0.3s; z-index:999; }
+    .theme-toggle:hover { transform:scale(1.1); }
   </style>
 </head>
 <body>
-  <header>
-    <h1>About Me</h1>
-    <nav>
-      <a href="{% url 'dtJourney:index' %}">Home</a> |
-      <a href="{% url 'dtJourney:about_me' %}">About Me</a>
-    </nav>
+  <header class="top-bar">
+    <div class="site-title">My Learning Journey</div>
+    <div class="nav-links">
+      <a href="{% url 'dtJourney:index' %}">Home</a>
+      <a href="{% url 'dtJourney:about_me' %}" class="active">About Me</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
   </header>
 
-  <main>
-    <section class="about-section">
-      {% if profile %}
-        <!-- Profile image -->
-        <img src="{% static 'images/myself.jpg' %}" alt="{{ profile.full_name }}" class="profile-image">
-        <h2>{{ profile.full_name }}</h2>
-        <p><strong>Email:</strong> {{ profile.email }}</p>
-        <p>{{ profile.bio|linebreaks }}</p>
-      {% else %}
-        <div class="placeholder-card">
-          <img src="{% static 'images/profile.png' %}" alt="Profile Placeholder" class="profile-image">
-          <p>No profile created yet.</p>
-          <p>Please create your profile from the admin panel to personalize this section.</p>
-        </div>
-      {% endif %}
-    </section>
+  <main style="text-align:center; margin-top:60px;">
+    {% if profile %}
+      <img src="{% static 'images/myself.jpg' %}" alt="{{ profile.full_name }}" style="width:180px; border-radius:50%; border:3px solid #8eeed4;">
+      <h2 style="margin-top:20px; color:#027368;">{{ profile.full_name }}</h2>
+      <p><strong>📧 Email:</strong> {{ profile.email }}</p>
+      <p style="max-width:600px; margin:auto;">✨ {{ profile.bio|linebreaks }}</p>
+    {% else %}
+      <div style="background:#fff; padding:30px; border-radius:18px; box-shadow:0 6px 15px rgba(0,0,0,0.08); max-width:600px; margin:auto;">
+        <img src="{% static 'images/profile.png' %}" alt="Profile Placeholder" style="width:150px; border-radius:10px; border:2px solid #9cf5d1;">
+        <p>No profile created yet.</p>
+        <p>Please create your profile from the admin panel to personalize this section.</p>
+      </div>
+    {% endif %}
   </main>
 
   <footer>
     <p>&copy; 2025 My Learning Journey | Django MVT Lab</p>
   </footer>
+
+  <button class="theme-toggle" id="theme-toggle">🌙</button>
+
+  <script>
+    const body = document.body;
+    const toggle = document.getElementById('theme-toggle');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      body.classList.add('dark-mode');
+      toggle.textContent = '☀️';
+    }
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>

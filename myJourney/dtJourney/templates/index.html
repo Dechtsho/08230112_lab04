@@ -6,97 +6,119 @@
   <title>My Learning Journey</title>
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <style>
-    /* Card styling */
-    .card {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      background-color: #fff;
+    /* 🌿 Global and Header Styles */
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f8fffc;
+      color: #033c36;
+      margin: 0;
+      transition: background 0.4s, color 0.4s;
+    }
+    .top-bar {
+      background: linear-gradient(to right, #aef5e0, #b7e8ff);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-radius: 0 0 20px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .site-title { font-weight:700; font-size:1.5rem; color:#025c52; }
+    .nav-links { display:flex; gap:20px; }
+    .nav-links a {
+      text-decoration:none; color:#025c52; font-weight:600;
+      padding:8px 16px; border-radius:10px; transition:0.3s;
+    }
+    .nav-links a:hover { background: rgba(255,255,255,0.6); color:#008c7a; }
+    .nav-links a.active { background-color:#9cf5d1; color:#025c52; }
+
+    /* Hamburger Menu */
+    .hamburger { display:none; flex-direction:column; cursor:pointer; }
+    .bar { width:25px; height:3px; background-color:#025c52; margin:4px 0; transition:0.4s; }
+
+    @media (max-width:768px) {
+      .nav-links { display:none; flex-direction:column; background:linear-gradient(to right,#aef5e0,#b7e8ff); position:absolute; top:65px; right:10px; width:200px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+      .nav-links.active { display:flex; }
+      .hamburger { display:flex; }
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
+    /* 🌿 Cards & Tables */
+    .card { border-radius:14px; padding:30px; margin:50px auto; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.08); max-width:900px; }
+    h2 { color:#027368; margin-bottom:15px; }
+    table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; }
+    th, td { border:1px solid #d1f2e2; padding:12px; text-align:left; }
+    th { background:linear-gradient(45deg,#4ddbb7,#6ac4ff); color:#fff; }
+    td { color:#03443d; background:#f9fffc; }
+    tr:nth-child(even) td { background:#edfff9; }
+    tr:hover td { background:#d1fff1; transform:scale(1.01); transition:all 0.3s; }
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
+    /* 🌿 Admin Proof */
+    .admin-proof { margin:60px auto; text-align:center; }
+    .proof-item { display:inline-block; background:#fff; border-radius:18px; padding:20px; margin:15px; box-shadow:0 6px 18px rgba(0,0,0,0.08); transition:all 0.3s; }
+    .proof-item:hover { transform:translateY(-8px); background:#e9fff8; }
+    .proof-item img { max-width:200px; border-radius:10px; border:2px solid #9cf5d1; }
 
-    th {
-      background-color: #007bff;
-      color: white;
-    }
+    /* 🌿 Footer */
+    footer { text-align:center; padding:20px; margin-top:50px; background:linear-gradient(to right,#aef5e0,#b7e8ff); border-radius:20px 20px 0 0; color:#025c52; }
 
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
+    /* 🌙 Dark Mode */
+    body.dark-mode { background:#101717; color:#eaf9f7; }
+    body.dark-mode .top-bar { background:linear-gradient(to right,#023833,#02304a); }
+    body.dark-mode .bar { background-color:#b9fff3; }
+    body.dark-mode .nav-links { background:linear-gradient(to right,#023833,#02304a); }
+    body.dark-mode .nav-links a { color:#b9fff3; }
+    body.dark-mode .nav-links a.active { background:#055f55; color:#aef5d1; }
+    body.dark-mode .card { background:#182422; color:#d7f5f0; }
+    body.dark-mode th { background:linear-gradient(45deg,#32c7a1,#4aa0f5); }
+    body.dark-mode td { background:#13221f; color:#d6f9f2; }
+    body.dark-mode .proof-item { background:#1c2d2a; }
+    body.dark-mode footer { background:linear-gradient(to right,#043731,#042b3a); color:#b9fff3; }
 
-    .admin-proof {
-      margin-top: 40px;
-    }
-
-    .admin-proof img {
-      max-width: 200px;
-      margin-right: 15px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      padding: 5px;
-    }
-
-    .proof-item {
-      display: inline-block;
-      text-align: center;
-      margin-right: 15px;
-    }
+    /* 🌙 Dark Mode Toggle */
+    .theme-toggle { position:fixed; bottom:25px; right:25px; background:linear-gradient(135deg,#4ddbb7,#6ac4ff); color:white; border:none; border-radius:50%; width:55px; height:55px; font-size:1.5em; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:transform 0.3s; z-index:999; }
+    .theme-toggle:hover { transform:scale(1.1); }
   </style>
 </head>
 <body>
-  <header>
-    <h1>My Learning Journey</h1>
-    <nav>
-      <a href="{% url 'dtJourney:index' %}">Home</a> |
+  <header class="top-bar">
+    <div class="site-title">My Learning Journey</div>
+    <div class="nav-links">
+      <a href="{% url 'dtJourney:index' %}" class="active">Home</a>
       <a href="{% url 'dtJourney:about_me' %}">About Me</a>
-    </nav>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
   </header>
 
   <main>
-    <!-- Card for Learning Journey -->
     <div class="card">
       <h2>Highlights of My Learning Journey</h2>
-
       {% if entries %}
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Title</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for entry in entries %}
-            <tr>
-              <td>{{ entry.date }}</td>
-              <td>{{ entry.title }}</td>
-              <td>{{ entry.description|linebreaks }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <table>
+        <thead><tr><th>Date</th><th>Title</th><th>Description</th></tr></thead>
+        <tbody>
+          {% for entry in entries %}
+          <tr>
+            <td>{{ entry.date }}</td>
+            <td>{{ entry.title }}</td>
+            <td>{{ entry.description|linebreaks }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
       {% else %}
-        <p>No learning entries yet. Please add some from the admin page.</p>
+      <p>No learning entries yet. Please add some from the admin page.</p>
       {% endif %}
     </div>
 
-    <!-- Admin Proof Section -->
     <section class="admin-proof">
-      <h2>Admin Proof</h2>
+      <h2>🧾 Admin Proof</h2>
       <div class="proof-item">
         <img src="{% static 'images/learning_entry.png' %}" alt="Learning Entry Screenshot">
         <p>learning_entry.png</p>
@@ -111,5 +133,31 @@
   <footer>
     <p>&copy; 2025 My Learning Journey | Django MVT Lab</p>
   </footer>
+
+  <button class="theme-toggle" id="theme-toggle">🌙</button>
+
+  <script>
+    const body = document.body;
+    const toggle = document.getElementById('theme-toggle');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      body.classList.add('dark-mode');
+      toggle.textContent = '☀️';
+    }
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
